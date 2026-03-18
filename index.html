@@ -836,6 +836,9 @@
       <a href="mailto:spiir.info@gmail.com" class="contact-email">spiir.info@gmail.com</a>
     </div>
     <form class="contact-form" onsubmit="handleSubmit(event)">
+      <input type="hidden" name="access_key" value="0c470e4f-11c4-4509-ad7b-ec7372f8af12">
+      <input type="hidden" name="subject" value="Ny besked via spiir.band">
+      <input type="hidden" name="from_name" value="Spiir Website">
       <div class="form-group">
         <label for="navn" data-i18n="form-name">Navn</label>
         <input type="text" id="navn" name="navn" placeholder="Dit navn" data-i18n-placeholder="form-name-ph" required>
@@ -904,10 +907,31 @@
     if (e.key === 'Escape') closeLightbox();
   });
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    document.getElementById('form-confirm').style.display = 'block';
-    e.target.reset();
+    const btn = e.target.querySelector('.submit-btn');
+    btn.disabled = true;
+    btn.textContent = '...';
+
+    const data = new FormData(e.target);
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: data
+    });
+    const json = await res.json();
+
+    const confirm = document.getElementById('form-confirm');
+    if (json.success) {
+      confirm.style.color = 'var(--accent)';
+      confirm.textContent = 'Besked sendt. Tak for din henvendelse.';
+      e.target.reset();
+    } else {
+      confirm.style.color = '#e57373';
+      confirm.textContent = 'Noget gik galt. Prøv igen eller skriv direkte til spiir.info@gmail.com';
+    }
+    confirm.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Send besked';
   }
 
   const translations = {
