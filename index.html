@@ -678,6 +678,10 @@
     }
 
     /* HERO */
+    .hero-bg {
+      background-size: auto 150%;
+      background-position: center 0%;
+    }
     #hero { padding-top: 28vh; padding-left: 1.5rem; padding-right: 1.5rem; }
     .hero-title { font-size: clamp(3.5rem, 18vw, 6rem); letter-spacing: 0.15em; }
     .hero-sub { font-size: 0.55rem; }
@@ -733,6 +737,7 @@
 
 <!-- MOBIL MENU -->
 <div class="mobile-menu" id="mobile-menu">
+  <button onclick="closeMobileMenu()" style="position:absolute; top:1.5rem; right:1.5rem; background:none; border:none; color:var(--text); cursor:pointer; font-size:1.8rem; line-height:1; padding:0.5rem;" aria-label="Luk menu">&times;</button>
   <a href="#presse" onclick="closeMobileMenu()" data-i18n="nav-photos">Billeder</a>
   <a href="#om" onclick="closeMobileMenu()" data-i18n="nav-about">Om bandet</a>
   <a href="#social" onclick="closeMobileMenu()" data-i18n="nav-follow">Følg os</a>
