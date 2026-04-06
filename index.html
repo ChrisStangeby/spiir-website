@@ -613,91 +613,104 @@
 
   .lightbox-close:hover { color: var(--text); }
 
+  /* HAMBURGER - skjult på desktop */
+  .hamburger { display: none; }
+  .mobile-menu { display: none; }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
-    nav {
-      padding: 1.2rem 1.5rem;
-    }
+
+    /* NAV */
+    nav { padding: 1rem 1.5rem; }
     .nav-links { display: none; }
+    #lang-btn { font-size: 0.55rem; padding: 0.25rem 0.5rem; }
 
-    #hero {
-      padding-top: 30vh;
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
+    /* HAMBURGER MENU */
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.4rem;
+      z-index: 10001;
     }
-
-    .hero-bg {
-    position: absolute;
-    inset: 0;
-    background-image: url('cover.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center 20%;
-    filter: brightness(0.65) saturate(0.85);
-  }
-
-    section {
-      padding: 4rem 1.5rem;
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--text);
+      transition: transform 0.3s, opacity 0.3s;
     }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-    .photos-header {
-      padding: 0 1.5rem 2rem;
-    }
-
-    .photo-grid {
-      grid-template-columns: 1fr;
-      grid-template-rows: auto;
-      gap: 4px;
-    }
-    .photo-item {
-      grid-column: 1 !important;
-      grid-row: auto !important;
-      height: 260px;
-    }
-
-    .bio-layout {
-      grid-template-columns: 1fr;
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       gap: 2.5rem;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,11,9,0.97);
+      z-index: 10000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
     }
+    .mobile-menu.open {
+      display: flex;
+      opacity: 1;
+      pointer-events: all;
+    }
+    .mobile-menu a {
+      font-family: 'Old Standard TT', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: lowercase;
+    }
+
+    /* HERO */
+    #hero { padding-top: 28vh; padding-left: 1.5rem; padding-right: 1.5rem; }
+    .hero-title { font-size: clamp(3.5rem, 18vw, 6rem); letter-spacing: 0.15em; }
+    .hero-sub { font-size: 0.55rem; }
+    .scroll-hint { display: none; }
+
+    /* SECTIONS */
+    section { padding: 3.5rem 1.5rem; }
+    .section-title { font-size: clamp(2rem, 8vw, 3rem); }
+
+    /* PHOTOS */
+    .photo-grid { grid-template-columns: 1fr; grid-template-rows: auto; gap: 4px; }
+    .photo-item { grid-column: 1 !important; grid-row: auto !important; height: 260px; }
+
+    /* BIO */
+    .bio-layout { grid-template-columns: 1fr; gap: 2rem; }
     .bio-side::before { display: none; }
-    .bio-text p { font-size: 0.95rem; }
-    .bio-text p:first-of-type::first-letter {
-      font-size: 3rem;
-    }
+    .bio-meta { margin-top: 1.5rem; }
+    .bio-text p { font-size: 0.95rem; line-height: 1.75; }
+    .bio-text p:first-of-type::first-letter { font-size: 2.5rem; }
 
-    .social-links {
-      gap: 1rem;
-    }
-    .social-link {
-      padding: 1rem 1.2rem;
-      font-size: 0.6rem;
-    }
+    /* SOCIAL */
+    .social-links { flex-direction: column; gap: 0.75rem; align-items: stretch; }
+    .social-link { padding: 1.2rem; text-align: center; justify-content: center; }
 
-    .contact-layout {
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
-    }
-    .contact-email {
-      font-size: 0.8rem;
-      word-break: break-all;
-    }
-
+    /* KONTAKT */
+    .contact-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .contact-email { font-size: 0.8rem; word-break: break-all; }
     .form-group input,
     .form-group select,
-    .form-group textarea {
-      font-size: 1rem;
-    }
+    .form-group textarea { font-size: 1rem; padding: 0.9rem 1rem; }
 
-    footer {
-      flex-direction: column;
-      gap: 1rem;
-      text-align: center;
-    }
-
-    #lang-btn {
-      padding: 0.25rem 0.5rem;
-      font-size: 0.55rem;
-    }
+    /* FOOTER */
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
   }
 </style>
 </head>
@@ -712,8 +725,19 @@
     <li><a href="#social" data-i18n="nav-follow">Følg os</a></li>
     <li><a href="#kontakt" data-i18n="nav-contact">Kontakt</a></li>
   </ul>
+  <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
   <button onclick="toggleLang()" id="lang-btn" style="background:none; border:1px solid var(--accent2); color:var(--text-dim); font-family:'Space Mono',monospace; font-size:0.6rem; letter-spacing:0.15em; text-transform:uppercase; padding:0.3rem 0.7rem; cursor:pointer; transition:color 0.3s, border-color 0.3s;" onmouseover="this.style.color='var(--text)';this.style.borderColor='var(--accent)'" onmouseout="this.style.color='var(--text-dim)';this.style.borderColor='var(--accent2)'">EN</button>
 </nav>
+
+<!-- MOBIL MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#presse" onclick="closeMobileMenu()" data-i18n="nav-photos">Billeder</a>
+  <a href="#om" onclick="closeMobileMenu()" data-i18n="nav-about">Om bandet</a>
+  <a href="#social" onclick="closeMobileMenu()" data-i18n="nav-follow">Følg os</a>
+  <a href="#kontakt" onclick="closeMobileMenu()" data-i18n="nav-contact">Kontakt</a>
+</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -1020,6 +1044,19 @@
   });
 
   let currentLang = 'da';
+
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const btn = document.getElementById('hamburger');
+    menu.classList.toggle('open');
+    btn.classList.toggle('open');
+    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+  }
+  function closeMobileMenu() {
+    document.getElementById('mobile-menu').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+    document.body.style.overflow = '';
+  }
 
   function toggleLang() {
     currentLang = currentLang === 'da' ? 'en' : 'da';
